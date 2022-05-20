@@ -8,42 +8,63 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 trait Responses
 {
     /**
-     * @param string $message
-     * @param int $status
+     * @param string $messenge
      * @return JsonResponse
      */
     protected function success(
-        string $messenger,
-        int $statusCode = Response::HTTP_OK
+        string $messenge
     ): JsonResponse {
         return response()->json([
-            'messenger' => $messenger,
-        ], $statusCode);
+            'messenge' => $messenge,
+        ], Response::HTTP_OK);
     }
 
     /**
-     * @param string $message
-     * @param int $status
+     * @param array $data
      * @return JsonResponse
      */
     protected function successWithArgs(
-        $args,
-        int $statusCode = Response::HTTP_OK
+        $data
     ): JsonResponse {
-        return response()->json($args, $statusCode);
+        return response()->json(
+            $data,
+            Response::HTTP_OK
+        );
     }
 
     /**
-     * @param string $message
-     * @param int $status
+     * @param string $messenge
      * @return JsonResponse
      */
-    protected function failure(
-        string $messenger = 'Erro',
-        int $statusCode = Response::HTTP_BAD_REQUEST
+    protected function created(
+        string $messenge
     ): JsonResponse {
         return response()->json([
-            'messenger' => $messenger,
-        ], $statusCode);
+            'messenge' => $messenge,
+        ], Response::HTTP_CREATED);
+    }
+
+    /**
+     * @param string $messenge
+     * @return JsonResponse
+     */
+    protected function unauthorized(
+        string $messenge
+    ): JsonResponse {
+        return response()->json([
+            'messenge' => $messenge,
+        ], Response::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * @param string $messenge
+     * @return JsonResponse
+     */
+    protected function notFound(
+        string $messenge
+    ): JsonResponse {
+        return response()->json([
+            'messenge' => $messenge,
+        ], Response::HTTP_NOT_FOUND);
     }
 }
