@@ -22,3 +22,11 @@ use Illuminate\Support\Facades\Route;
 Route::apiResources([
     'games' => GameController::class,
 ]);
+
+// Route::group(['prefix' => 'games',], function () {
+//     Route::get('/', [GameController::class, 'index']);
+//     Route::post('/', [GameController::class, 'store']);
+//     Route::get('/{id}', [GameController::class, 'show']);
+//     Route::put('/{id}', [GameController::class, 'update']);
+//     Route::delete('/{id}', [GameController::class, 'destroy']);
+// });
