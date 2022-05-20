@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GameRequest;
 use App\Models\Game;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GameController extends Controller
@@ -17,10 +16,10 @@ class GameController extends Controller
      */
     public function index(): JsonResponse
     {
-        $games = Game::limit(10)->get();
+        $games = Game::simplePaginate(5);
 
         if ($games->isEmpty()) {
-            return $this->failure('No games found.');
+            return $this->notFound('No games found.');
         }
 
         return $this->successWithArgs($games);
@@ -36,7 +35,7 @@ class GameController extends Controller
     {
         Game::create($request->validated());
 
-        return $this->success('Game created.');
+        return $this->created('Game created.');
     }
 
     /**
@@ -47,7 +46,13 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        //
+        $game = Game::find($id);
+
+        if (!$game) {
+            return $this->notFound('Game not found.');
+        }
+
+        return $this->successWithArgs($game);
     }
 
     /**
@@ -57,9 +62,17 @@ class GameController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(GameRequest $request, $id)
     {
-        //
+        $game = Game::find($id);
+
+        if (!$game) {
+            return $this->notFound('Game not found.');
+        }
+
+        $game->update($request->validated());
+
+        return $this->success('Game updated.');
     }
 
     /**
@@ -70,6 +83,14 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $game = Game::find($id);
+
+        if (!$game) {
+            return $this->notFound('Game not found.');
+        }
+
+        $game->delete();
+
+        return $this->success('Game deleted.');
     }
 }
