@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\GameController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResources([
     'games' => GameController::class,
+    'users' => UserController::class,
 ]);
 
 // Route::group(['prefix' => 'games',], function () {
