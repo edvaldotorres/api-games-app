@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Admin\GameController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
