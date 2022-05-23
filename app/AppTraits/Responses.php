@@ -15,6 +15,7 @@ trait Responses
         string $messenge
     ): JsonResponse {
         return response()->json([
+            'success' => 'success',
             'messenge' => $messenge,
         ], Response::HTTP_OK);
     }
@@ -40,19 +41,57 @@ trait Responses
         string $messenge
     ): JsonResponse {
         return response()->json([
+            'status' => 'success',
             'messenge' => $messenge,
         ], Response::HTTP_CREATED);
     }
 
     /**
-     * @param string $messenge
+     * @param string $token
      * @return JsonResponse
      */
-    protected function unauthorized(
-        string $messenge
+    protected function respondWithToken(
+        string $token
     ): JsonResponse {
         return response()->json([
-            'messenge' => $messenge,
+            'status' => 'success',
+            'user' => auth('api')->user(),
+            'authorisation' => [
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth('api')->factory()->getTTL() * 60,
+            ]
+        ], Response::HTTP_OK);
+    }
+
+    /**
+     * @param array $user
+     * @param $token
+     * @return JsonResponse
+     */
+    protected function respondWithTokenRegister(
+        array $user,
+        $token
+    ): JsonResponse {
+        return response()->json([
+            'status' => 'success',
+            'messenge' => 'User created successfully',
+            'user' => $user,
+            'authorisation' => [
+                'access_token' => $token,
+                'token_type' => 'bearer',
+            ]
+        ], Response::HTTP_CREATED);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    protected function unauthorized(): JsonResponse
+    {
+        return response()->json([
+            'status' => 'error',
+            'messenge' => 'Unauthorized',
         ], Response::HTTP_UNAUTHORIZED);
     }
 
