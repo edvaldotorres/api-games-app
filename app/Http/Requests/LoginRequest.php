@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class UserRequest extends BaseRequest
+class LoginRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -12,10 +12,8 @@ class UserRequest extends BaseRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6',
-            'is_admin' => 'boolean|in:0,1',
         ];
     }
 }
