@@ -25,6 +25,11 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
+    /**
+     * Get the authenticated User.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(UserRequest $request)
     {
         $user = User::create($request->validated());

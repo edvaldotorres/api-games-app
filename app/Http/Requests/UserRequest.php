@@ -15,7 +15,7 @@ class UserRequest extends BaseRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
-            'is_admin' => 'boolean|in:0,1',
+            'is_admin' => 'required|in:0,1',
         ];
     }
 }
