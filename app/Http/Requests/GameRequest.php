@@ -12,7 +12,6 @@ class GameRequest extends BaseRequest
     public function rules()
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'score' => 'required|integer|min:0',
