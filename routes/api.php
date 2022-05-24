@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\GameController;
+use App\Http\Controllers\Api\ScoreController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::apiResources([
         'games' => GameController::class,
+        'scores' => ScoreController::class,
         'users' => UserController::class,
     ]);
 
