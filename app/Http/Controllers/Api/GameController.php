@@ -31,7 +31,7 @@ class GameController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(GameRequest $request)
+    public function store(GameRequest $request): JsonResponse
     {
         Game::create($request->validated());
 
@@ -44,7 +44,7 @@ class GameController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id): JsonResponse
     {
         $game = Game::find($id);
 
@@ -62,7 +62,7 @@ class GameController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(GameRequest $request, $id)
+    public function update(GameRequest $request, $id): JsonResponse
     {
         $game = Game::find($id);
 
@@ -81,7 +81,7 @@ class GameController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id): JsonResponse
     {
         $game = Game::find($id);
 
