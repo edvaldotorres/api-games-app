@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GameRequest;
 use App\Models\Game;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GameController extends Controller
@@ -33,6 +34,8 @@ class GameController extends Controller
      */
     public function store(GameRequest $request): JsonResponse
     {
+        Gate::authorize('admin');
+
         Game::create($request->validated());
 
         return $this->created('Game created.');
@@ -64,6 +67,8 @@ class GameController extends Controller
      */
     public function update(GameRequest $request, $id): JsonResponse
     {
+        Gate::authorize('admin');
+
         $game = Game::find($id);
 
         if (!$game) {
@@ -83,6 +88,8 @@ class GameController extends Controller
      */
     public function destroy($id): JsonResponse
     {
+        Gate::authorize('admin');
+        
         $game = Game::find($id);
 
         if (!$game) {
