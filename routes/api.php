@@ -22,13 +22,25 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
 });
 
-Route::group(['middleware' => 'jwt.auth'], function () {
+Route::controller(GameController::class)->group(function () {
+    Route::get('games', 'index');
+    Route::get('games/{id}', 'show');
+    Route::post('games', 'store')->middleware('jwt.auth');
+    Route::put('games/{id}', 'update')->middleware('jwt.auth');
+    Route::delete('games/{id}', 'destroy')->middleware('jwt.auth');
+});
 
-    Route::apiResources([
-        'games' => GameController::class,
-        'scores' => ScoreController::class,
-        'users' => UserController::class,
-    ]);
+Route::controller(ScoreController::class)->group(function () {
+    Route::get('scores/{id}', 'index');
+    Route::post('scores', 'store')->middleware('jwt.auth');
+});
 
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+Route::controller(UserController::class)->group(function () {
+    Route::middleware('jwt.auth')->group(function () {
+        Route::get('users', 'index');
+        Route::get('users/me', 'me');
+        Route::get('users/{id}', 'show');
+        Route::put('users/{id}', 'update');
+        Route::delete('users/{id}', 'destroy');
+    });
 });
