@@ -85,13 +85,15 @@ trait Responses
     }
 
     /**
+     * @param $messenge
      * @return JsonResponse
      */
-    protected function unauthorized(): JsonResponse
-    {
+    protected function unauthorized(
+        $message = null
+    ): JsonResponse {
         return response()->json([
             'status' => 'error',
-            'messenge' => 'Unauthorized',
+            'messenge' => $message ?? 'Unauthorized',
         ], Response::HTTP_UNAUTHORIZED);
     }
 

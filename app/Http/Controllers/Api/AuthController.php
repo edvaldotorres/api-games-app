@@ -37,16 +37,4 @@ class AuthController extends Controller
 
         return $this->respondWithTokenRegister($user->toArray(), auth('api')->login($user));
     }
-
-    /**
-     * Log the user out (Invalidate the token).
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout(): JsonResponse
-    {
-        auth('api')->logout();
-
-        return $this->success('Successfully logged out');
-    }
 }
