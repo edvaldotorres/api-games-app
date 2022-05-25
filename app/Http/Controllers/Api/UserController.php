@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UserController extends Controller
@@ -16,6 +17,8 @@ class UserController extends Controller
      */
     public function index(): JsonResponse
     {
+        Gate::authorize('admin');
+
         $users = User::simplePaginate(5);
 
         if ($users->isEmpty()) {
