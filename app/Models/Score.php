@@ -19,4 +19,12 @@ class Score extends Model
         'game_id',
         'score',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public static function getRanking($id)
+    {
+        return self::where('game_id', $id)->orderBy('score', 'desc')->simplePaginate(5);
+    }
 }
