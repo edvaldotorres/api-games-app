@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -29,14 +29,28 @@ class UserController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function me(): JsonResponse
+    {
+        return $this->successWithArgs(auth('api')->user());
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        //
+        Gate::authorize('admin');
+
+        User::create($request->validated());
+
+        return $this->created('User created.');
     }
 
     /**
@@ -47,7 +61,15 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        Gate::authorize('admin');
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return $this->notFound('User not found.');
+        }
+
+        return $this->successWithArgs($user);
     }
 
     /**
@@ -57,9 +79,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        if (!auth('api')->user()->is_admin && auth('api')->id() !== $id) {
+            return $this->unauthorized('You are not authorized to update this user.');
+        }
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return $this->notFound('User not found.');
+        }
+
+        $user->update($request->validated());
+
+        return $this->successWithArgs($user);
     }
 
     /**
@@ -70,6 +104,16 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Gate::authorize('admin');
+
+        $user = User::find($id);
+
+        if (!$user) {
+            return $this->notFound('User not found.');
+        }
+
+        $user->delete();
+
+        return $this->success('User deleted.');
     }
 }
