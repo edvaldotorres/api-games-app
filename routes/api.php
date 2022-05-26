@@ -39,6 +39,7 @@ Route::controller(UserController::class)->group(function () {
     Route::middleware('jwt.auth')->group(function () {
         Route::get('users', 'index');
         Route::get('users/me', 'me');
+        Route::post('users', 'store');
         Route::get('users/{id}', 'show');
         Route::put('users/{id}', 'update');
         Route::delete('users/{id}', 'destroy');
