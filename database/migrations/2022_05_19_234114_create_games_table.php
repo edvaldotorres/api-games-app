@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->integer('score');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
