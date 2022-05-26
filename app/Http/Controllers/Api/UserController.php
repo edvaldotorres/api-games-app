@@ -79,7 +79,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, int $id)
     {
         if (!auth('api')->user()->is_admin && auth('api')->id() !== $id) {
             return $this->unauthorized('You are not authorized to update this user.');
